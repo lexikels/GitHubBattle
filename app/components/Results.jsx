@@ -62,6 +62,7 @@ Card.propTypes = {
     company: PropTypes.string,
   }).isRequired,
 };
+
 export default class Results extends React.Component {
   constructor(props) {
     super(props);
@@ -100,15 +101,16 @@ export default class Results extends React.Component {
     }
 
     if (error) {
-      return <p className="text-center error ">{error}</p>;
+      return <p className="text-center error">{error}</p>;
     }
+
     return (
       <main className="animate-in stack main-stack">
         <div className="split">
           <h1>Results</h1>
         </div>
         <section className="grid">
-          <article className="results container">
+          <article className="results-container">
             <Card profile={winner.profile} />
             <p className="results">
               <span>
