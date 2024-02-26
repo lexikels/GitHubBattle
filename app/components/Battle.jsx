@@ -1,14 +1,14 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { close } from "./icons";
-import Results from "./Results";
+import { Link } from "react-router-dom";
 
 function Instructions() {
   return (
     <section className="instructions-container">
       <h2>Instructions</h2>
       <ol>
-        <li>Enter 2 GitHub users</li>
+        <li>Enter 2 Github users</li>
         <li>Battle</li>
         <li>See the winners</li>
       </ol>
@@ -27,19 +27,16 @@ class PlayerInput extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-
   handleSubmit(event) {
     event.preventDefault();
 
     this.props.onSubmit(this.state.username);
   }
-
   handleChange(event) {
     this.setState({
       username: event.target.value,
     });
   }
-
   render() {
     return (
       <form className="card" onSubmit={this.handleSubmit}>
@@ -106,46 +103,38 @@ export default class Battle extends React.Component {
     this.state = {
       playerOne: null,
       playerTwo: null,
-      battle: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleReset = this.handleReset.bind(this);
   }
-
   handleSubmit(id, player) {
     this.setState({
       [id]: player,
     });
   }
-
   handleReset(id) {
     this.setState({
       [id]: null,
     });
   }
-
   render() {
-    const { playerOne, playerTwo, battle } = this.state;
+    const { playerOne, playerTwo } = this.state;
     const disabled = !playerOne || !playerTwo;
-
-    if (battle === true) {
-      return <Results playerOne={playerOne} playerTwo={playerTwo} />;
-    }
 
     return (
       <main className="stack main-stack animate-in">
         <div className="split">
           <h1>Players</h1>
-
-          <button
-            onClick={() => {
-              this.setState({ battle: true });
+          <Link
+            to={{
+              pathname: "/results",
+              search: `?playerOne=${playerOne}&playerTwo=${playerTwo}`,
             }}
             className={`btn primary ${disabled ? "disabled" : ""}`}
           >
             Battle
-          </button>
+          </Link>
         </div>
         <section className="grid">
           {playerOne === null ? (
