@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
 import * as React from "react";
+import PropTypes from "prop-types";
 
 const styles = {
   fontSize: "14px",
@@ -11,24 +11,17 @@ const styles = {
 };
 
 class Delayed extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      show: false,
-    };
-  }
-
+  state = {
+    show: false,
+  };
   componentDidMount() {
     this.timeout = window.setTimeout(() => {
       this.setState({ show: true });
     }, this.props.wait);
   }
-
   componentWillUnmount() {
     window.clearTimeout(this.timeout);
   }
-
   render() {
     return this.state.show === true ? this.props.children : null;
   }
@@ -44,14 +37,9 @@ Delayed.propTypes = {
 };
 
 export default class Loading extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      content: props.text,
-    };
-  }
-
+  state = {
+    content: this.props.text,
+  };
   componentDidMount() {
     const { speed, text } = this.props;
 
@@ -61,21 +49,19 @@ export default class Loading extends React.Component {
         : this.setState(({ content }) => ({ content: content + "." }));
     }, speed);
   }
-
   componentWillUnmount() {
     window.clearInterval(this.interval);
   }
-
   render() {
     return (
-      <delayed>
+      <Delayed>
         <p style={styles}>{this.state.content}</p>
-      </delayed>
+      </Delayed>
     );
   }
 }
 
-Loading.protoType = {
+Loading.propTypes = {
   text: PropTypes.string.isRequired,
   speed: PropTypes.number.isRequired,
 };

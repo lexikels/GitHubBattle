@@ -20,28 +20,21 @@ function LanguagesNav({ selected, onUpdateLanguage }) {
   );
 }
 
-LanguagesNav.protoTypes = {
+LanguagesNav.propTypes = {
   selected: PropTypes.string.isRequired,
   onUpdateLanguage: PropTypes.func.isRequired,
 };
 
 export default class Popular extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      selectedLanguage: "All",
-      repos: null,
-      error: null,
-    };
-
-    this.updateLanguage = this.updateLanguage.bind(this);
-  }
+  state = {
+    selectedLanguage: "All",
+    repos: null,
+    error: null,
+  };
   componentDidMount() {
     this.updateLanguage(this.state.selectedLanguage);
   }
-
-  updateLanguage(selectedLanguage) {
+  updateLanguage = (selectedLanguage) => {
     this.setState({
       selectedLanguage,
       error: null,
@@ -55,18 +48,19 @@ export default class Popular extends React.Component {
         })
       )
       .catch((error) => {
-        console.warn("error fetching repos: ", error);
+        console.warn("Error fetching repos: ", error);
 
         this.setState({
-          error: `there was an error fetching the repositories`,
+          error: `There was an error fetching the repositories`,
         });
       });
-  }
+  };
   render() {
     const { selectedLanguage, repos, error } = this.state;
+
     return (
       <main className="stack main-stack animate-in">
-        <div class="split">
+        <div className="split">
           <h1>Popular</h1>
           <LanguagesNav
             selected={selectedLanguage}
@@ -76,7 +70,7 @@ export default class Popular extends React.Component {
 
         {error && <p className="text-center error">{error}</p>}
 
-        {repos && <pre>{<Table repos={repos} />}</pre>}
+        {repos && <Table repos={repos} />}
       </main>
     );
   }
